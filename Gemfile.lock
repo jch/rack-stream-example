@@ -8,7 +8,7 @@ GEM
     faye-websocket (0.4.5)
       eventmachine (>= 0.12.0)
     rack (1.4.1)
-    rack-stream (0.0.3)
+    rack-stream (0.0.4)
       em-synchrony
       eventmachine
       faye-websocket
@@ -22,5 +22,5 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  rack-stream
+  rack-stream (~> 0.0.4)
   thin

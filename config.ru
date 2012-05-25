@@ -6,10 +6,10 @@ require 'rack/stream'
 class App
   include Rack::Stream::DSL
 
-  def call(env)
+  stream do
     after_open do
       count = 0
-      EM.add_periodic_timer(1) do
+      @timer = EM.add_periodic_timer(1) do
         if count != 3
           chunk "chunky #{count}\n"
           count += 1
@@ -22,16 +22,17 @@ class App
     end
 
     before_close do
+      @timer.cancel
       chunk "monkey!\n"
     end
 
-    [200, {'Content-Type' => 'application/json'}, []]
+    [200, {'Content-Type' => 'text/plain'}, []]
   end
 end
 
 app = Rack::Builder.app do
   use Rack::Stream
-  run App
+  run App.new
 end
 
 run app
